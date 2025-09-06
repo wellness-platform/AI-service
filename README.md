@@ -7,6 +7,7 @@ source .venv/bin/activate           # Windows: .venv\Scripts\activate
 pip install fastapi uvicorn python-multipart requests pydantic
 
 
+export=<copypass> 
 
 # POST запит до /decompose-tasks
 curl -X POST "http://localhost:8000/decompose-tasks" \

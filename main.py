@@ -22,133 +22,6 @@ app.add_middleware(
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "your-deepseek-api-key-here")
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 
-# def call_deepseek_api(input_text: str) -> Dict[str, List[str]]:
-#     """
-#     Calls DeepSeek API to break down tasks into subtasks
-#     """
-#     headers = {
-#         "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
-#         "Content-Type": "application/json"
-#     }
-    
-#     prompt = f"""
-#     Break down the following task into subtasks and return in JSON format:
-#     {input_text}
-    
-#     Response format:
-#     {{
-#       "category_name": [
-#         "subtask 1",
-#         "subtask 2",
-#         ...
-#       ]
-#     }}
-    
-#     Please return only JSON without additional text.
-#     """
-    
-#     payload = {
-#         "model": "deepseek-chat",
-#         "messages": [
-#             {"role": "system", "content": "You are an expert in breaking down tasks into subtasks. Return only JSON."},
-#             {"role": "user", "content": prompt}
-#         ],
-#         "temperature": 0.3,
-#         "max_tokens": 2000
-#     }
-    
-#     try:
-#         response = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload, timeout=60)
-#         response.raise_for_status()
-        
-#         # Parse response
-#         result = response.json()
-#         ai_response = result['choices'][0]['message']['content']
-        
-#         # Try to extract JSON from response
-#         try:
-#             # Find JSON in the response text
-#             json_start = ai_response.find('{')
-#             json_end = ai_response.rfind('}') + 1
-#             json_str = ai_response[json_start:json_end]
-            
-#             return json.loads(json_str)
-#         except (json.JSONDecodeError, ValueError) as e:
-#             # If parsing fails, use mock data
-#             print(f"JSON parsing error: {e}")
-#             return get_mock_subtasks(input_text)
-            
-#     except Exception as e:
-#         print(f"DeepSeek API call error: {e}")
-#         raise HTTPException(status_code=500, detail=f"API call failed: {str(e)}")
-
-# def call_deepseek_api(input_text: str) -> Dict[str, List[str]]:
-#     """
-#     Calls DeepSeek API to break down tasks into subtasks
-#     """
-#     headers = {
-#         "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
-#         "Content-Type": "application/json"
-#     }
-    
-#     prompt = f"""
-#     Break down the following task into subtasks and return in JSON format:
-#     {input_text}
-    
-#     Response format:
-#     {{
-#       "category_name": [
-#         "subtask 1",
-#         "subtask 2",
-#         ...
-#       ]
-#     }}
-    
-#     Please return only JSON without additional text.
-#     Keep the response concise and focused on actionable tasks.
-#     """
-    
-#     payload = {
-#         "model": "deepseek-chat",
-#         "messages": [
-#             {"role": "system", "content": "You are an expert in breaking down tasks into subtasks. Return only JSON."},
-#             {"role": "user", "content": prompt}
-#         ],
-#         "temperature": 0.3,
-#         "max_tokens": 1000  # 👈 Зменши кількість токенів
-#     }
-    
-#     try:
-#         # 👇 Збільши таймаут до 60 секунд
-#         response = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload, timeout=60)
-#         response.raise_for_status()
-        
-#         # Parse response
-#         result = response.json()
-#         ai_response = result['choices'][0]['message']['content']
-        
-#         # Try to extract JSON from response
-#         try:
-#             json_start = ai_response.find('{')
-#             json_end = ai_response.rfind('}') + 1
-#             json_str = ai_response[json_start:json_end]
-            
-#             return json.loads(json_str)
-#         except (json.JSONDecodeError, ValueError) as e:
-#             print(f"JSON parsing error: {e}")
-#             print(f"Raw AI response: {ai_response}")
-#             return get_mock_subtasks(input_text)
-            
-#     except requests.exceptions.Timeout:
-#         print("⚠️  DeepSeek API timeout - using mock data instead")
-#         return get_mock_subtasks(input_text)
-#     except requests.exceptions.ConnectionError:
-#         print("⚠️  Connection error - using mock data instead")
-#         return get_mock_subtasks(input_text)
-#     except Exception as e:
-#         print(f"⚠️  DeepSeek API call error: {e} - using mock data")
-#         return get_mock_subtasks(input_text)
-
 def call_deepseek_api(input_text: str) -> Dict[str, List[Dict[str, str]]]:
     """
     Calls DeepSeek API to break down tasks into subtasks with priority and time estimates
@@ -209,31 +82,6 @@ def call_deepseek_api(input_text: str) -> Dict[str, List[Dict[str, str]]]:
         print(f"DeepSeek API call error: {e}")
         return get_mock_subtasks_with_metadata(input_text)  # 👈 Updated mock function
 
-# def format_subtasks(raw_tasks: Dict[str, List[str]]) -> Dict[str, SubtaskCategory]:
-#     """
-#     Formats raw tasks into structured format
-#     """
-#     formatted = {}
-    
-#     for category_name, tasks in raw_tasks.items():
-#         subtask_items = []
-        
-#         for i, task_description in enumerate(tasks):
-#             subtask_item = SubtaskItem(
-#                 name=f"Task {i+1}",
-#                 description=task_description,
-#                 priority="medium",
-#                 estimated_time="1-2 hours"
-#             )
-#             subtask_items.append(subtask_item)
-        
-#         formatted[category_name] = SubtaskCategory(
-#             category_name=category_name,
-#             tasks=subtask_items
-#         )
-    
-#     return formatted
-
 def format_subtasks(raw_tasks: Dict[str, List[Dict[str, str]]]) -> Dict[str, SubtaskCategory]:
     """
     Formats raw tasks into structured format
@@ -264,35 +112,6 @@ def format_subtasks(raw_tasks: Dict[str, List[Dict[str, str]]]) -> Dict[str, Sub
         )
     
     return formatted
-
-# @app.post("/decompose-tasks", response_model=SubtaskResponse)
-# async def decompose_tasks(request: SubtaskRequest):
-#     """
-#     Breaks down input text into structured subtasks
-#     """
-#     try:
-#         if request.use_mock or not DEEPSEEK_API_KEY or DEEPSEEK_API_KEY == "your-deepseek-api-key-here":
-#             # Use mock data for testing
-#             raw_tasks = get_mock_subtasks(request.input_text)
-#         else:
-#             # Call real API
-#             raw_tasks = call_deepseek_api(request.input_text)
-        
-#         # Format results
-#         formatted_tasks = format_subtasks(raw_tasks)
-        
-#         # Count total tasks
-#         total_tasks = sum(len(category.tasks) for category in formatted_tasks.values())
-        
-#         return SubtaskResponse(
-#             success=True,
-#             subtasks=formatted_tasks,
-#             total_tasks=total_tasks,
-#             message="Tasks decomposed successfully"
-#         )
-        
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Error processing request: {str(e)}")
 
 @app.post("/decompose-tasks", response_model=SubtaskResponse)
 async def decompose_tasks(request: SubtaskRequest):
@@ -338,10 +157,6 @@ async def root():
 async def health_check():
     return {"status": "healthy", "service": "task-decomposer"}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
 @app.get("/api-status")
 async def api_status():
     """
@@ -353,3 +168,7 @@ async def api_status():
         "message": "Using mock data" if DEEPSEEK_API_KEY == "your-deepseek-api-key-here" else "Ready for real API calls"
     }
     return status
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
