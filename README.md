@@ -6,6 +6,7 @@ source .venv/bin/activate           # Windows: .venv\Scripts\activate
 # Встановлення залежностей для DeepSeek
 pip install fastapi uvicorn python-multipart requests pydantic
 
+uvicorn main:app --reload
 
 export=<copypass> 
 
@@ -18,7 +19,7 @@ curl -X POST "http://localhost:8000/decompose-tasks" \
      }'
 
 
- # POST request to /decompose-tasks
+# POST request to /decompose-tasks
 curl -X POST "http://localhost:8000/decompose-tasks" \
      -H "Content-Type: application/json" \
      -d '{
@@ -32,3 +33,20 @@ curl -X POST "http://localhost:8000/decompose-tasks" \
        "input_text": "Develop a mobile app for fitness tracking",
        "use_mock": false  # 👈 Це головне!
      }'
+# Test 
+curl -X POST "http://localhost:8000/decompose-tasks"   -H "Content-Type: application/json"   -d '{"input_text": "any text", "use_test_file": "test3.json"}'
+
+# Перелік тестових файлів:
+curl http://localhost:8000/test-files
+
+
+Best Practices які ми використали:
+Environment-based configuration (API ключ через змінні оточення)
+
+Clean separation тестового і продакшн режимів
+
+Proper error handling з чіткими повідомленнями
+
+API documentation автоматична через FastAPI
+
+File organization логічна структура проект

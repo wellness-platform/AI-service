@@ -3,7 +3,7 @@ from typing import List, Dict, Optional
 
 class SubtaskRequest(BaseModel):
     input_text: str
-    use_mock: bool = True  # Для тестування без реального API
+    use_test_file: Optional[str] = None  # Для тестування без реального API
 
 class SubtaskItem(BaseModel):
     name: str

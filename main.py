@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict, List
 import requests
 import os
+from pathlib import Path
 import json
 from models import SubtaskRequest, SubtaskResponse, SubtaskItem, SubtaskCategory
 from mock_data import get_mock_subtasks
@@ -22,10 +23,35 @@ app.add_middleware(
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "your-deepseek-api-key-here")
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 
+def load_test_response(file_name: str) -> Dict[str, List[Dict[str, str]]]:
+    """
+    Load test response from JSON file
+    """
+    try:
+        # Шукаємо файл в папці test_responses
+        file_path = Path(f"test_responses/{file_name}")
+        if not file_path.exists():
+            # Якщо не знайдено, шукаємо в корені
+            file_path = Path(file_name)
+            if not file_path.exists():
+                raise FileNotFoundError(f"Test file {file_name} not found")
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            print(f"✅ Loaded test data from {file_path}")
+            return data
+            
+    except Exception as e:
+        print(f"❌ Error loading test file {file_name}: {e}")
+        raise HTTPException(status_code=404, detail=f"Test file error: {str(e)}")
+
 def call_deepseek_api(input_text: str) -> Dict[str, List[Dict[str, str]]]:
     """
     Calls DeepSeek API to break down tasks into subtasks with priority and time estimates
     """
+    if not DEEPSEEK_API_KEY or DEEPSEEK_API_KEY == "your-deepseek-api-key-here":
+        raise HTTPException(status_code=400, detail="DeepSeek API key not configured")
+
     headers = {
         "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
         "Content-Type": "application/json"
@@ -65,6 +91,7 @@ def call_deepseek_api(input_text: str) -> Dict[str, List[Dict[str, str]]]:
     }
     
     try:
+        print("🚀 Calling DeepSeek API...")
         response = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload, timeout=60)
         response.raise_for_status()
         
@@ -79,8 +106,8 @@ def call_deepseek_api(input_text: str) -> Dict[str, List[Dict[str, str]]]:
         return json.loads(json_str)
             
     except Exception as e:
-        print(f"DeepSeek API call error: {e}")
-        return get_mock_subtasks_with_metadata(input_text)  # 👈 Updated mock function
+        print(f"❌ DeepSeek API call failed: {e}")
+        raise HTTPException(status_code=500, detail=f"API call failed: {str(e)}")
 
 def format_subtasks(raw_tasks: Dict[str, List[Dict[str, str]]]) -> Dict[str, SubtaskCategory]:
     """
@@ -113,25 +140,26 @@ def format_subtasks(raw_tasks: Dict[str, List[Dict[str, str]]]) -> Dict[str, Sub
     
     return formatted
 
+
 @app.post("/decompose-tasks", response_model=SubtaskResponse)
 async def decompose_tasks(request: SubtaskRequest):
     """
-    Breaks down input text into structured subtasks
+    Main endpoint - uses either test file or real API
     """
     try:
-        if request.use_mock or not DEEPSEEK_API_KEY or DEEPSEEK_API_KEY == "your-deepseek-api-key-here":
-            # Use mock data for testing
-            raw_tasks = get_mock_subtasks_with_metadata(request.input_text)
-            message = "Using mock data (by request or no API key)"
+        # 👇 1. TEST MODE - з тестового файлу
+        if request.use_test_file:
+            raw_tasks = load_test_response(request.use_test_file)
+            message = f"Test mode: using {request.use_test_file}"
+        
+        # 👇 2. PRODUCTION MODE - реальне API
         else:
-            # Call real API with fallback to mock data
             try:
                 raw_tasks = call_deepseek_api(request.input_text)
                 message = "Tasks decomposed using DeepSeek API"
             except Exception as api_error:
-                print(f"API call failed, falling back to mock data: {api_error}")
-                raw_tasks = get_mock_subtasks(request.input_text)
-                message = "API call failed, using mock data as fallback"
+                print(f"API call failed: {api_error}")
+                raise HTTPException(status_code=500, detail=f"API call failed: {str(api_error)}")
         
         # Format results
         formatted_tasks = format_subtasks(raw_tasks)
@@ -146,8 +174,21 @@ async def decompose_tasks(request: SubtaskRequest):
             message=message
         )
         
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {str(e)}")
+
+@app.get("/test-files")
+async def list_test_files():
+    """List available test files"""
+    test_dir = Path("test_responses")
+    files = []
+    
+    if test_dir.exists():
+        files = [f.name for f in test_dir.glob("*.json")]
+    
+    return {"available_test_files": files}
 
 @app.get("/")
 async def root():

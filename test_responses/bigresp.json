@@ -1,0 +1,52 @@
+curl -X POST "http://localhost:8000/decompose-tasks" \
+  -H "Content-Type: application/json" \
+  -d '{"input_text": "I want to develop app for ios but i dont know where to start with code. Im devops but more on ops part. help me break down steps for initializing code (flutter dart and one service fast api"}'
+
+{
+  "success": true,
+  "subtasks": {
+    "iOS App Development Setup": {
+      "category_name": "iOS App Development Setup",
+      "tasks": [
+        {
+          "name": "Install Flutter SDK and Xcode",
+          "description": "Download and install Flutter SDK, set up environment variables, and install Xcode from Mac App Store for iOS development tools and simulators",
+          "priority": "high",
+          "estimated_time": "2-4 hours"
+        },
+        {
+          "name": "Set up Flutter Development Environment",
+          "description": "Configure Android Studio/VSCode with Flutter/Dart plugins, verify installation with 'flutter doctor', and create first test project",
+          "priority": "high",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Learn Basic Flutter/Dart Concepts",
+          "description": "Study Flutter widget structure, Dart syntax, and basic app architecture through official documentation and tutorials",
+          "priority": "high",
+          "estimated_time": "3-5 days"
+        },
+        {
+          "name": "Set up FastAPI Backend Service",
+          "description": "Install Python, create virtual environment, install FastAPI and dependencies, create basic API endpoints for testing",
+          "priority": "medium",
+          "estimated_time": "2-3 hours"
+        },
+        {
+          "name": "Create Basic Flutter App Structure",
+          "description": "Set up project structure, implement basic UI components, and establish connection to FastAPI backend",
+          "priority": "medium",
+          "estimated_time": "2-3 days"
+        },
+        {
+          "name": "Test iOS Build and Deployment",
+          "description": "Build app for iOS simulator, test basic functionality, and prepare for physical device testing",
+          "priority": "medium",
+          "estimated_time": "1-2 days"
+        }
+      ]
+    }
+  },
+  "total_tasks": 6,
+  "message": "Tasks decomposed using DeepSeek API"
+}
