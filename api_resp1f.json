@@ -1,0 +1,78 @@
+{
+  "success": true,
+  "subtasks": {
+    "Website Portfolio Development": {
+      "category_name": "Website Portfolio Development",
+      "tasks": [
+        {
+          "name": "Task 1",
+          "description": "Choose and register a domain name",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 2",
+          "description": "Select a WordPress hosting provider and purchase a plan",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 3",
+          "description": "Install WordPress on the hosting server",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 4",
+          "description": "Choose and install a suitable WordPress theme for portfolios",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 5",
+          "description": "Customize the theme to match personal branding (colors, fonts, layout)",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 6",
+          "description": "Create essential pages (Home, About, Portfolio, Contact)",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 7",
+          "description": "Add portfolio items with images, descriptions, and project details",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 8",
+          "description": "Install necessary plugins (e.g., for SEO, security, contact forms)",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 9",
+          "description": "Test website functionality and responsiveness on different devices",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 10",
+          "description": "Optimize website for performance and speed",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        },
+        {
+          "name": "Task 11",
+          "description": "Launch the website and make it publicly accessible",
+          "priority": "medium",
+          "estimated_time": "1-2 hours"
+        }
+      ]
+    }
+  },
+  "total_tasks": 11,
+  "message": "Tasks decomposed using DeepSeek API"
+}

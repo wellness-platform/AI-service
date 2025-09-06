@@ -1,0 +1,64 @@
+# Python cache / compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.py.class
+
+# Virtual environment
+venv/
+.env/
+.venv/
+ENV/
+env/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs / temp files
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+
+# Coverage / testing
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.pytest_cache/
+
+# MyPy / Type checker
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# FastAPI / Uvicorn
+*.pid
+
+# Dependencies (if local installs)
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Docker
+*.tar
+*.bak
+*.tmp
+*.orig
+
+# Env files with secrets
+*.env
+*.env.*
