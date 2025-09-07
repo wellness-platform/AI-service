@@ -23,8 +23,7 @@ curl -X POST "http://localhost:8000/decompose-tasks" \
 curl -X POST "http://localhost:8000/decompose-tasks" \
      -H "Content-Type: application/json" \
      -d '{
-       "input_text": "I need to develop a web application for project management",
-       "use_mock": true
+       "input_text": "So i want to start creating a productivity app for people with adhd as a designer and don't know where to start"
      }'
 
 curl -X POST "http://localhost:8000/decompose-tasks" \
@@ -50,3 +49,8 @@ Proper error handling з чіткими повідомленнями
 API documentation автоматична через FastAPI
 
 File organization логічна структура проект
+
+
+curl -X POST "http://localhost:8000/decompose-tasks" \
+  -H "Content-Type: application/json" \
+  -d "{\"input_text\": \"So i want to start creating a productivity app for people with adhd as a designer and don't know where to start\"}"
