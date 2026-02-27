@@ -1,0 +1,48 @@
+{
+  "success": true,
+  "subtasks": {
+    "Productivity App for ADHD": {
+      "category_name": "Productivity App for ADHD",
+      "tasks": [
+        {
+          "name": "Research ADHD Needs and Existing Solutions",
+          "description": "Conduct thorough research on ADHD-specific productivity challenges, interview potential users, and analyze existing apps to identify gaps and opportunities",
+          "priority": "high",
+          "estimated_time": "2-3 weeks"
+        },
+        {
+          "name": "Define Core Features and Value Proposition",
+          "description": "Establish the app's unique value, key features (e.g., task management, focus timers, reminders), and target user persona",
+          "priority": "high",
+          "estimated_time": "1 week"
+        },
+        {
+          "name": "Create Wireframes and User Flows",
+          "description": "Design low-fidelity wireframes and user flow diagrams to visualize the app structure and navigation",
+          "priority": "high",
+          "estimated_time": "1-2 weeks"
+        },
+        {
+          "name": "Develop High-Fidelity UI Design",
+          "description": "Create polished visual designs with ADHD-friendly principles (minimal distractions, clear hierarchy, intuitive interactions)",
+          "priority": "medium",
+          "estimated_time": "2-3 weeks"
+        },
+        {
+          "name": "Create Interactive Prototype",
+          "description": "Build a clickable prototype to test usability and gather feedback from potential users",
+          "priority": "medium",
+          "estimated_time": "1 week"
+        },
+        {
+          "name": "Plan Development Approach",
+          "description": "Research technical requirements, decide on development platform (native vs cross-platform), and outline development roadmap",
+          "priority": "medium",
+          "estimated_time": "1 week"
+        }
+      ]
+    }
+  },
+  "total_tasks": 6,
+  "message": "Tasks decomposed using DeepSeek API"
+}

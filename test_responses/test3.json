@@ -1,0 +1,46 @@
+{
+  "Website Portfolio Development": [
+    {
+      "name": "Domain registration and hosting setup",
+      "description": "Purchase domain name and select WordPress hosting provider, configure DNS settings and install WordPress",
+      "priority": "high",
+      "estimated_time": "2-4 hours"
+    },
+    {
+      "name": "WordPress theme selection and installation",
+      "description": "Choose and install a portfolio-focused WordPress theme, configure basic theme settings and layout",
+      "priority": "high",
+      "estimated_time": "3-5 hours"
+    },
+    {
+      "name": "Portfolio content creation",
+      "description": "Create and organize portfolio items, write about sections, add project descriptions and images",
+      "priority": "high",
+      "estimated_time": "1-2 days"
+    },
+    {
+      "name": "Design customization and branding",
+      "description": "Customize colors, fonts, logo, and layout to match personal brand, create responsive design",
+      "priority": "medium",
+      "estimated_time": "4-6 hours"
+    },
+    {
+      "name": "Essential plugins installation",
+      "description": "Install and configure necessary plugins (security, SEO, contact forms, performance optimization)",
+      "priority": "medium",
+      "estimated_time": "2-3 hours"
+    },
+    {
+      "name": "Testing and quality assurance",
+      "description": "Test website functionality, mobile responsiveness, browser compatibility, and fix any issues",
+      "priority": "medium",
+      "estimated_time": "2-3 hours"
+    },
+    {
+      "name": "SEO optimization and launch",
+      "description": "Optimize meta tags, create sitemap, set up analytics, and make website live",
+      "priority": "low",
+      "estimated_time": "2-3 hours"
+    }
+  ]
+}
